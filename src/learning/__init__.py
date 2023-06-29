@@ -1,3 +1,6 @@
+from datetime import date
+from typing import Optional
+
 from learning.admissions.models import Admission
 
 
@@ -17,3 +20,9 @@ def is_user_has_premium_admission(user_id: int, course_id: int) -> bool:
         return False
 
     return admission.is_premium
+
+
+def admission_learning_started(admission_id: int) -> Optional[date]:
+    admission = Admission.objects.get(id=admission_id)
+
+    return admission.squad.start_date if admission.squad else None

@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 
 import learning
 
@@ -19,23 +19,21 @@ class Payment(models.Model):
         default=PaymentStatus.INIT,
     )
 
-    def save(self, *args, **kwargs):
-        # If this instance is already in the database, get its current state.
-        if self.pk is not None:
-            original = Payment.objects.get(pk=self.pk)
-        else:
-            original = None
+    def mark_success(self):
+        # Rule #3
+        self.status = PaymentStatus.SUCCESS
+        learning.admission_grant_premium(self.admission_id)
 
-        # Call the "real" save() method to save the new state.
-        super().save(*args, **kwargs)
+        self.save()
 
-        # If the status changed from INIT to SUCCESS, call .
-        if (
-            original is not None
-            and original.status == PaymentStatus.INIT
-            and self.status == PaymentStatus.SUCCESS
-        ):
-            learning.admission_grant_premium(self.admission_id)  # Rule #3
+    @transaction.atomic
+    def mark_refunded(self):
+        refund, _ = Refund.objects.get_or_create(payment=self)
+        self.status = PaymentStatus.REFUNDED
+        learning.admission_revoke_premium(self.admission)
+
+        self.save()
+        return refund
 
 
 class Refund(models.Model):

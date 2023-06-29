@@ -3,6 +3,7 @@ from rest_framework import mixins, permissions, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+import learning
 from payment.payments.models import Payment, Refund
 
 
@@ -28,11 +29,14 @@ class PaymentViewSet(
         payment = self.get_object()
 
         # Rule #5: user can't create refund when he started to learn.
-        if payment.admission.squad.start_date <= timezone.now().date():
+        if (
+            learning.admission_learning_started(payment.admission_id)
+            <= timezone.now().date()
+        ):
             return Response(
                 status=400, data=dict(error="You have already started to learn.")
             )
 
-        refund = Refund.objects.create(payment=payment)
+        refund = payment.mark_refunded()
 
         return Response(status=200, data=dict(id=refund.id))
