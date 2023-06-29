@@ -44,7 +44,7 @@ class AdmissionViewSet(
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user)  # Rule #2
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
@@ -80,7 +80,7 @@ class PaymentViewSet(
     def refund(self, request, **_):
         payment = self.get_object()
 
-        # Rule #7: user can't create refund when he started to learn.
+        # Rule #5: user can't create refund when he started to learn.
         if payment.admission.squad.start_date <= timezone.now().date():
             return Response(
                 status=400, data=dict(error="You have already started to learn.")

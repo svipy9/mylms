@@ -40,7 +40,7 @@ class Admission(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=["user", "course"], name="unique_admission")
-        ]
+        ]  # Rule #1
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -87,13 +87,13 @@ class Payment(models.Model):
             and original.status == PaymentStatus.INIT
             and self.status == PaymentStatus.SUCCESS
         ):
+            self.admission.is_premium = True  # Rule #3
             self.admission.paid_at = timezone.now()
             nearest_squad = Squad.objects.filter(
                 course=self.admission.course,
                 start_date__gt=timezone.now(),
             ).first()
             self.admission.squad = nearest_squad
-            self.admission.is_premium = True
             self.admission.save()
 
 

@@ -27,7 +27,7 @@ class AdmissionSerializer(serializers.ModelSerializer):
                 course=admission.course,
                 start_date__gt=timezone.now(),
             ).first()
-            validated_data["squad"] = nearest_squad
+            validated_data["squad"] = nearest_squad  # Rule #3
 
         if not validated_data.get(
             "is_premium"

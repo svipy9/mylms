@@ -33,6 +33,7 @@ class LessonSerializer(serializers.ModelSerializer):
     content = serializers.SerializerMethodField()
 
     def get_content(self, lesson):
+        # Rule #4
         if lesson.is_free or self.context.get("is_premium"):
             return lesson.content
         return None
