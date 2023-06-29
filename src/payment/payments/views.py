@@ -1,9 +1,9 @@
 from django.utils import timezone
-from rest_framework import mixins, permissions, viewsets, serializers
+from rest_framework import mixins, permissions, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from payments.models import Payment, Refund
+from payment.payments.models import Payment, Refund
 
 
 class PaymentSerializer(serializers.ModelSerializer):

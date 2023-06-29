@@ -3,10 +3,10 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from schema_graph.views import Schema
 
-from accounts.views import UserDetailView, LoginView
-from admissions.views import StudentAdmissionViewSet, ManagerAdmissionViewSet
-from courses.views import StudentCourseViewSet, ManagerCourseViewSet
-from payments.views import PaymentViewSet
+from accounts.views import LoginView, UserDetailView
+from content.courses.views import ManagerCourseViewSet, StudentCourseViewSet
+from learning.admissions.views import ManagerAdmissionViewSet, StudentAdmissionViewSet
+from payment.payments.views import PaymentViewSet
 
 student_router = DefaultRouter()
 student_router.register(r"admissions", StudentAdmissionViewSet)

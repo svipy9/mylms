@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AdmissionsConfig(AppConfig):
+class SquadsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "admissions"
+    name = "learning.squads"

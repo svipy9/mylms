@@ -1,8 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import mixins, permissions, serializers, viewsets
 
-from courses.models import Course, Lesson
 from accounts.permissions import IsManagerUser
-from rest_framework import serializers, mixins, permissions
+from content.courses.models import Course, Lesson
 
 
 class ManagerCourseSerializer(serializers.ModelSerializer):

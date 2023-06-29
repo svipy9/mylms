@@ -1,9 +1,9 @@
-from admissions.models import Admission
-from rest_framework import mixins, permissions, viewsets, serializers
-from accounts.permissions import IsManagerUser
 from django.utils import timezone
-from squads.models import Squad
+from rest_framework import mixins, permissions, serializers, viewsets
 
+from accounts.permissions import IsManagerUser
+from learning.admissions.models import Admission
+from learning.squads.models import Squad
 
 
 class StudentAdmissionSerializer(serializers.ModelSerializer):

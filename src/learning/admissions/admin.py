@@ -1,4 +1,5 @@
 from django.contrib import admin
-from admissions.models import Admission
+
+from learning.admissions.models import Admission
 
 admin.site.register(Admission)

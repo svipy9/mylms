@@ -38,16 +38,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "schema_graph",
-
     "accounts",
-    "admissions",
-    "courses",
-    "squads",
-    "payments",
-    "payment_methods",
+    "learning.admissions",
+    "learning.squads",
+    "content.courses",
+    "payment.payments",
+    "payment.payment_methods",
 ]
 
 MIDDLEWARE = [
