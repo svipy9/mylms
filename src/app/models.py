@@ -103,3 +103,8 @@ class Refund(models.Model):
 
 class Revenue(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+
+
+class PaymentMethod(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    external_id = models.CharField(max_length=200)
