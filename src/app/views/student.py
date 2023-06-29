@@ -4,7 +4,8 @@ from rest_framework import (generics, mixins, permissions, status, views,
 from rest_framework.response import Response
 
 from app.models import Admission, Course
-from app.serializers.student import AdmissionSerializer, UserSerializer, CourseSerializer
+from app.serializers.student import (AdmissionSerializer, CourseSerializer,
+                                     UserSerializer)
 
 
 class LoginView(views.APIView):
@@ -44,7 +45,8 @@ class AdmissionViewSet(
 
 
 class CourseViewSet(
-    viewsets.GenericViewSet, mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+    mixins.ListModelMixin,
 ):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
