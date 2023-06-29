@@ -4,7 +4,7 @@ from learning.admissions.models import Admission
 from learning.squads.models import Squad
 
 
-def admission_grunt_premium(admission_id: int) -> None:
+def admission_grant_premium(admission_id: int) -> None:
     admission = Admission.objects.get(id=admission_id)
     nearest_squad = (
         Squad.objects.filter(
