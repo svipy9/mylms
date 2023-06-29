@@ -4,7 +4,8 @@ from rest_framework import (generics, mixins, permissions, status, views,
 from rest_framework.response import Response
 
 from app.models import Admission, Course
-from app.serializers.student import (AdmissionSerializer, CourseSerializer,
+from app.serializers.student import (AdmissionSerializer,
+                                     CourseDetailSerializer, CourseSerializer,
                                      UserSerializer)
 
 
@@ -47,7 +48,13 @@ class AdmissionViewSet(
 class CourseViewSet(
     viewsets.GenericViewSet,
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
 ):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":  # The action is 'retrieve' for the detail view.
+            return CourseDetailSerializer  # Use CourseDetailSerializer for the detail view.
+        return CourseSerializer  # Use CourseSerializer for all other views.

@@ -3,8 +3,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from schema_graph.views import Schema
 
-from app.views import student
-from app.views.manager import CourseViewSet
+from app.views import manager, student
 
 student_router = DefaultRouter()
 student_router.register(r"admissions", student.AdmissionViewSet)
@@ -12,7 +11,8 @@ student_router.register(r"courses", student.CourseViewSet)
 
 
 manager_router = DefaultRouter()
-manager_router.register(r"courses", CourseViewSet)
+manager_router.register(r"courses", manager.CourseViewSet)
+manager_router.register(r"admissions", manager.AdmissionViewSet)
 
 
 urlpatterns = [
