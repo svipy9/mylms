@@ -1,6 +1,6 @@
 from django.db import models, transaction
 
-import learning
+import learning.interface as learning
 
 
 class PaymentStatus(models.TextChoices):

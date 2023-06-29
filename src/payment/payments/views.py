@@ -3,8 +3,8 @@ from rest_framework import mixins, permissions, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-import learning
-from payment.payments.models import Payment, Refund
+import learning.interface as learning
+from payment.payments.models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):

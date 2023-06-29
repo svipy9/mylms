@@ -1,6 +1,6 @@
 from rest_framework import mixins, permissions, serializers, viewsets
 
-import learning
+import learning.interface as learning
 from accounts.permissions import IsManagerUser
 from content.courses.models import Course, Lesson
 
