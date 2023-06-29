@@ -72,6 +72,6 @@ class StudentCourseViewSet(
     permission_classes = [permissions.IsAuthenticated]
 
     def get_serializer_class(self):
-        if self.action == "retrieve":  # The action is 'retrieve' for the detail view.
-            return CourseDetailSerializer  # Use CourseDetailSerializer for the detail view.
-        return CourseSerializer  # Use CourseSerializer for all other views.
+        if self.action == "retrieve":
+            return StudentCourseDetailSerializer
+        return StudentCourseSerializer
