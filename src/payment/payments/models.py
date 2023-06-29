@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+import learning
 
 
 class PaymentStatus(models.TextChoices):
@@ -34,14 +34,7 @@ class Payment(models.Model):
             and original.status == PaymentStatus.INIT
             and self.status == PaymentStatus.SUCCESS
         ):
-            self.admission.is_premium = True  # Rule #3
-            self.admission.paid_at = timezone.now()
-            nearest_squad = Squad.objects.filter(
-                course=self.admission.course,
-                start_date__gt=timezone.now(),
-            ).first()
-            self.admission.squad = nearest_squad
-            self.admission.save()
+            learning.admission_grant_premium(self.admission_id)  # Rule #3
 
 
 class Refund(models.Model):
