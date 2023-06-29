@@ -1,7 +1,24 @@
-from rest_framework import generics, permissions, viewsets, mixins
+from django.contrib.auth import authenticate, login
+from rest_framework import (generics, mixins, permissions, status, views,
+                            viewsets)
+from rest_framework.response import Response
 
-from app.serializers import UserSerializer, AdmissionSerializer
-from app.models import Admission
+from app.models import Admission, Course
+from app.serializers.student import AdmissionSerializer, UserSerializer, CourseSerializer
+
+
+class LoginView(views.APIView):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({"detail": "Login Successful"}, status=status.HTTP_200_OK)
+        return Response(
+            {"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
+        )
 
 
 class UserDetailView(generics.RetrieveAPIView):
@@ -12,7 +29,9 @@ class UserDetailView(generics.RetrieveAPIView):
         return self.request.user
 
 
-class AdmissionViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
+class AdmissionViewSet(
+    viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin
+):
     queryset = Admission.objects.all()
     serializer_class = AdmissionSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -22,3 +41,11 @@ class AdmissionViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cr
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
+
+class CourseViewSet(
+    viewsets.GenericViewSet, mixins.ListModelMixin,
+):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticated]

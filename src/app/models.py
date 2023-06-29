@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
-    email = models.EmailField(_("email address"), unique=True)
     is_manager = models.BooleanField(default=False)
 
     USERNAME_FIELD = "username"
@@ -14,12 +13,12 @@ class User(AbstractUser):
         return f"{self.username} ({self.email})"
 
 
-
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField(blank=True)
+    price = models.IntegerField(blank=False, null=False)
 
     def __str__(self):
         return f"{self.name} (f{self.slug})"
@@ -31,6 +30,11 @@ class Squad(models.Model):
 
 
 class Admission(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "course"], name="unique_admission")
+        ]
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)

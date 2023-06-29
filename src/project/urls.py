@@ -1,20 +1,23 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from app.views.student import UserDetailView, AdmissionViewSet, CourseViewSet
+from app.views import student
+from app.views.manager import CourseViewSet
 
 student_router = DefaultRouter()
-student_router.register(r'admissions', AdmissionViewSet)
+student_router.register(r"admissions", student.AdmissionViewSet)
+student_router.register(r"courses", student.CourseViewSet)
 
 
 manager_router = DefaultRouter()
-manager_router.register(r'courses', CourseViewSet)
+manager_router.register(r"courses", CourseViewSet)
 
 
 urlpatterns = [
-    path('', include(student_router.urls)),
-    path('me/', UserDetailView.as_view(), name='user-detail'),
-    path('mng/', include(manager_router.urls)),
-    path('admin/', admin.site.urls),
+    path("login/", student.LoginView.as_view(), name="account_login"),
+    path("", include(student_router.urls)),
+    path("me/", student.UserDetailView.as_view(), name="user-detail"),
+    path("mng/", include(manager_router.urls)),
+    path("admin/", admin.site.urls),
 ]
