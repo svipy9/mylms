@@ -8,6 +8,7 @@ from app.views import manager, student
 student_router = DefaultRouter()
 student_router.register(r"admissions", student.AdmissionViewSet)
 student_router.register(r"courses", student.CourseViewSet)
+student_router.register(r"payments", student.PaymentViewSet)
 
 
 manager_router = DefaultRouter()

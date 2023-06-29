@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from app.models import Admission, Course, Lesson
+from app.models import Admission, Course, Lesson, Payment
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -58,3 +58,9 @@ class CourseDetailSerializer(CourseSerializer):
         )
 
         return serializer.data
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ["id", "admission", "url", "status"]
