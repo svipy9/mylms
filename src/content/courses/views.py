@@ -1,5 +1,6 @@
 from rest_framework import mixins, permissions, serializers, viewsets
 
+import learning
 from accounts.permissions import IsManagerUser
 from content.courses.models import Course, Lesson
 
@@ -47,9 +48,10 @@ class StudentCourseDetailSerializer(StudentCourseSerializer):
 
     def get_lessons(self, course):
         user = self.context["request"].user
-        admission = Admission.objects.filter(user=user, course=course).first()
-        if admission and admission.is_premium:
-            self.context["is_premium"] = True
+
+        self.context["is_premium"] = learning.is_user_has_premium_admission(
+            user.id, course.id
+        )
 
         serializer = StudentLessonSerializer(
             course.lesson_set.all(),
