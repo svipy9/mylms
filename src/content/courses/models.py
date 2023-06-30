@@ -7,6 +7,18 @@ class Course(models.Model):
     description = models.TextField(blank=True)
     price = models.IntegerField(blank=False, null=False)
 
+
+    def add_lesson(self, name, content, is_free=False):
+        if self.lesson_set.count() > 100:
+            raise Exception("Too many lessons")
+
+        Lesson.objects.create(
+            course_id=self.id,
+            name=name,
+            content=content,
+            is_free=is_free
+        )
+
     def __str__(self):
         return f"{self.name} ({self.slug})"
 
