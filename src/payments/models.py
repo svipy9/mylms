@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from squads.models import Squad
 
 
 class PaymentStatus(models.TextChoices):
