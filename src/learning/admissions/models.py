@@ -26,8 +26,8 @@ class Admission(models.Model):
     def find_by_user_and_course(cls, *, user_id, course_id):
         return cls.objects.filter(user_id=user_id, course_id=course_id).first()
 
-    def grant_premium(self):
-        self.squad = Squad.get_nearest(self.course_id)
+    def grant_premium(self, squad_id: int):
+        self.squad_id = squad_id
         self.paid_at = timezone.now()
         self.is_premium = True
 

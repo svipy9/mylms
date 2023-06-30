@@ -2,11 +2,13 @@ from datetime import date
 from typing import Optional
 
 from learning.admissions.models import Admission
+from learning.squads.models import Squad
 
 
 def admission_grant_premium(admission_id: int) -> None:
     admission = Admission.objects.get(id=admission_id)
-    admission.grant_premium()
+    squad = Squad.get_nearest_squad(admission.course_id)
+    admission.grant_premium(squad_id=squad.id)
 
 
 def admission_revoke_premium(admission_id: int) -> None:
